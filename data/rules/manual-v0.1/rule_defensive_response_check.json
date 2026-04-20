@@ -1,0 +1,24 @@
+{
+  "rule_id": "rule_defensive_response_check",
+  "rule_name": "비판에 대한 방어 패턴 자기 점검",
+  "confidence": "medium",
+  "trigger_conditions": {
+    "extra": {
+      "responds_to_prior_critique": true
+    }
+  },
+  "critique_template": "이 문서/응답이 비판에 대한 방어 모드로 작성되지 않았는가?",
+  "evidence_questions": [
+    "비판의 핵심을 재진술한 뒤 답변하고 있는가, 우회하고 있는가?",
+    "'그건 이미 고려했어' 톤이 등장하는가?",
+    "비판의 전제를 문제 삼고 있는가, 비판 자체에 답하고 있는가?",
+    "DEKK 팀이 사용자 비판에 방어했던 패턴과 구조적으로 유사하지 않은가?"
+  ],
+  "source_critiques": [
+    "DEKK 팀이 사용자의 비판에 '클론한 게 의미 없다는 거냐'로 되받은 사례 (conversation-log.md#phase7)",
+    "사용자 본인이 '지금 나도 같은 함정에 빠질 수 있다'는 자기 인식을 드러냄"
+  ],
+  "user_conviction_level": "medium",
+  "notes": "이 규칙은 Mirror Agent 자체에 대한 방어도 포함. 사용자가 에이전트 출력에 방어할 때 트리거 가능.",
+  "validated_by_user": true
+}

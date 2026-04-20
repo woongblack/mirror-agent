@@ -1,0 +1,22 @@
+{
+  "rule_id": "rule_differentiation_explicit",
+  "rule_name": "클론의 차별화 지점은 명시되어야 한다",
+  "confidence": "high",
+  "trigger_conditions": {
+    "document_mentions_similar_product": true
+  },
+  "critique_template": "이것이 {existing_service}의 클론이라면, 차별화 지점은 무엇이며 문서에 명시되어 있는가?",
+  "evidence_questions": [
+    "{existing_service}가 이미 해결한 문제를 재해결하려는 것은 아닌가?",
+    "차별화 지점이 사용자 가치인가, 만드는 사람의 기술적 흥미인가?",
+    "사용자가 {existing_service} 대신 이것을 선택할 구체적 이유가 있는가?",
+    "차별화 지점은 테스트 가능한 가설로 표현되어 있는가?"
+  ],
+  "source_critiques": [
+    "DEKK 팀에게 'Snap 클론이면 똑같아지는 거 아니냐?' 질문 (conversation-log.md#phase7)",
+    "ALLBLUE 자체 검토에서 'AI 합성 붙인 Snap 클론 아니냐?' 재적용 가능성 발견"
+  ],
+  "user_conviction_level": "very_high",
+  "notes": "사용자 본인이 명시적으로 '클론 자체는 문제가 아니다, 차별점이 문제다'라고 발화함.",
+  "validated_by_user": true
+}

@@ -1,0 +1,21 @@
+{
+  "rule_id": "rule_hypothetical_language_detector",
+  "rule_name": "가정형 언어 패턴 탐지",
+  "confidence": "medium",
+  "trigger_conditions": {
+    "author_is_user": true
+  },
+  "critique_template": "이 문서에 가정형 언어 패턴이 핵심 가치 주장에 사용되고 있지 않은가?",
+  "evidence_questions": [
+    "'~라고 생각했어' 패턴이 등장하는 맥락에서 증거가 제시되는가?",
+    "'~라면' 패턴 뒤에 검증 계획이 따라오는가, 단순 낙관인가?",
+    "'기술적으로 어려울 수는 있지만' 같은 한계 인정 후 구체적 해결 방안이 있는가?",
+    "가정형 언어가 핵심 가치 주장에 사용되고 있는가, 부수적 설명에 사용되는가?"
+  ],
+  "source_critiques": [
+    "conversation-log.md#phase7의 ALLBLUE 차별화 답변에서 가정형 언어 집중 사용"
+  ],
+  "user_conviction_level": "medium",
+  "notes": "v0.2에서 정규식 + 의미 분류로 구현 예정. v0.1에서는 LLM 프롬프트로 탐지.",
+  "validated_by_user": true
+}

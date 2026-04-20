@@ -1,0 +1,23 @@
+{
+  "rule_id": "rule_motivation_honesty",
+  "rule_name": "프로젝트 동기의 정직성 원칙",
+  "confidence": "medium",
+  "trigger_conditions": {
+    "extra": {
+      "claims_commercial_value": true
+    }
+  },
+  "critique_template": "이 프로젝트를 하는 진짜 이유가 {stated_reason}인가, 아니면 다른 이유인가?",
+  "evidence_questions": [
+    "'좋은 사업 아이디어'라고 주장하는 근거가 있는가?",
+    "개인적 동기(실행 자유, 학습, 포트폴리오)를 숨기고 상업성을 앞세우고 있지 않은가?",
+    "솔직한 동기를 문서화했을 때 프로젝트 설계가 달라질 수 있는가?",
+    "목표와 메트릭이 진짜 동기와 일치하는가?"
+  ],
+  "source_critiques": [
+    "ALLBLUE의 진짜 동기가 '실행 자유'였음을 사용자가 인정 (conversation-log.md#phase8)"
+  ],
+  "user_conviction_level": "medium",
+  "notes": "이 규칙은 사용자가 한 번 인정한 것에 기반. 추후 비슷한 인정이 쌓이면 high로 승격.",
+  "validated_by_user": true
+}

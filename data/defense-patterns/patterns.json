@@ -1,0 +1,40 @@
+{
+  "patterns": [
+    {
+      "pattern_id": "defense_later_phase",
+      "trigger": "로드맵 후반부 설계에 대한 비판을 받았을 때",
+      "example_response": "이건 Phase 3 얘기니까 나중에 생각하면 돼",
+      "weakness": "DEKK에서 동일한 '나중에' 논리가 프로젝트 실패 원인 중 하나였음. 공급자 확보나 차별화 검증은 후행 과제가 아니라 선행 검증 대상.",
+      "source": "conversation-log.md#phase6"
+    },
+    {
+      "pattern_id": "defense_technical_framing",
+      "trigger": "시장/사용자 검증에 대한 비판을 받았을 때",
+      "example_response": "기술적으로 좀 어려울 수는 있지만 상품 데이터를 가져오는 게 한계점이야",
+      "weakness": "사용자 니즈에 대한 질문을 기술 난이도 문제로 프레임 전환. 원 질문(사용자가 이걸 원하는가?)에 답하지 않음.",
+      "source": "conversation-log.md#phase7"
+    },
+    {
+      "pattern_id": "defense_hypothetical_affirmation",
+      "trigger": "사용자 가치 주장의 근거를 요구받았을 때",
+      "example_response": "다른 쇼핑몰에 상품들까지 가져오면 더 다양한 코디룩이 나오고 그걸 사용자에게 제공할 수 있을 거라고 생각했어",
+      "weakness": "'~라고 생각했어', '~라면', '~할 수 있을 거라고' 같은 가정형 언어로 확실성 없이 주장. 실제 증거 없음.",
+      "source": "conversation-log.md#phase7"
+    },
+    {
+      "pattern_id": "defense_attribution_to_others",
+      "trigger": "팀 내 갈등 상황에 대한 자기 성찰 요구를 받았을 때",
+      "example_response": "팀원 역량 문제라고 생각했어",
+      "weakness": "구조적/사회적 문제(비판 차단 문화)를 개별 역량 문제로 환원. 이 프레이밍은 자신의 대응 방식도 재검토하지 않게 함.",
+      "source": "conversation-log.md#phase7"
+    },
+    {
+      "pattern_id": "defense_scope_expansion",
+      "trigger": "범위 축소 제안을 받았을 때",
+      "example_response": "[관찰된 직접 발화 없음. 예상 패턴]",
+      "weakness": "에이전트 개수/기능 범위를 줄이자는 제안에 '그런데 이것도 필요하고 저것도 필요하고'로 대응. Rule 5 (1인 운영 가능성)와 직접 충돌.",
+      "source": "추정 패턴, Phase 3 실사용에서 검증 필요"
+    }
+  ],
+  "notes": "v0.1 초기 시드. Phase 3 실사용 과정에서 관찰되는 실제 방어 발화를 추가하면서 확장. 마지막 패턴(scope_expansion)은 관찰 예정 상태."
+}

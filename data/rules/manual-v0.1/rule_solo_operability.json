@@ -1,0 +1,22 @@
+{
+  "rule_id": "rule_solo_operability",
+  "rule_name": "1인 운영 가능성 검증 원칙",
+  "confidence": "medium_high",
+  "trigger_conditions": {
+    "project_is_solo": true,
+    "tech_stack_complexity_high": true
+  },
+  "critique_template": "1인이 이 {stack_component_list}를 운영 중에 디버깅/유지보수할 수 있는가?",
+  "evidence_questions": [
+    "장애 발생 시 1인이 대응 가능한 범위를 벗어나지 않는가?",
+    "각 컴포넌트가 MVP 단계에서 진짜 필요한가, '있어야 할 것 같아서' 넣었는가?",
+    "관측성/분산 시스템 패턴이 premature optimization 아닌가?",
+    "기술 부채 누적 시 1인이 감당할 수 있는 규모인가?"
+  ],
+  "source_critiques": [
+    "ALLBLUE 자체 검토에서 Spring Boot + Redis Streams + Saga + Prometheus + Loki 등 1인 운영 적합성 의문 (conversation-log.md#phase6)"
+  ],
+  "user_conviction_level": "medium_high",
+  "notes": "대화 중반에 외부 지적으로 확인된 규칙. 사용자가 직접 발화하지는 않았으나 수용함.",
+  "validated_by_user": true
+}
