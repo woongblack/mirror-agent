@@ -8,17 +8,16 @@
         → Defender: Critique → DefensePrediction 첨부 (병렬)
         → Scorer: novelty + final_score 계산, 정렬
         → Reporter: Report → Markdown
-
-TODO(v0.1):
-- [ ] 각 단계 조립
-- [ ] 에러 처리 (한 규칙 실패해도 다른 규칙은 진행)
-- [ ] 진행 상황 Rich progress bar
-- [ ] 토큰 사용량 요약 출력
 """
 
 from __future__ import annotations
 
+import asyncio
+import logging
 from pathlib import Path
+
+from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from mirror_agent.analyzer import DocumentAnalyzer
 from mirror_agent.config import (
@@ -32,9 +31,28 @@ from mirror_agent.generator import CritiqueGenerator
 from mirror_agent.llm import LLMClient
 from mirror_agent.loader import load_defense_patterns, load_rules
 from mirror_agent.matcher import RuleMatcher
-from mirror_agent.models import Report
+from mirror_agent.models import Critique, MatchResult, Report, Rule
 from mirror_agent.reporter import Reporter
 from mirror_agent.scorer import Scorer
+
+logger = logging.getLogger(__name__)
+console = Console()
+
+
+async def _generate_with_defense(
+    rule: Rule,
+    match: MatchResult,
+    generator: CritiqueGenerator,
+    defender: DefensePredictor,
+) -> Critique | None:
+    """단일 규칙에 대해 Critique 생성 + 방어 예측. 실패 시 None 반환."""
+    try:
+        critique = await generator.generate(rule, match)
+        critique.defense_prediction = await defender.predict(critique)
+        return critique
+    except Exception:
+        logger.warning("규칙 처리 실패, 건너뜀: %s", rule.rule_id, exc_info=True)
+        return None
 
 
 async def run_mirror_review(document_path: Path | str) -> Report:
@@ -49,35 +67,44 @@ async def run_mirror_review(document_path: Path | str) -> Report:
     settings = Settings.from_env()
     llm = LLMClient(settings)
 
-    # 1. 규칙 + 방어 패턴 로드
     rules = load_rules(RULES_DIR)
     patterns = load_defense_patterns(DEFENSE_PATTERNS_PATH)
 
-    # 2. 파이프라인 구성
     analyzer = DocumentAnalyzer(llm)
     matcher = RuleMatcher(llm, settings)
     generator = CritiqueGenerator(llm)
     defender = DefensePredictor(llm, patterns)
     scorer = Scorer(REPORTS_DIR)
 
-    # 3. 실행
     document_text = Path(document_path).read_text(encoding="utf-8")
-    metadata = await analyzer.analyze(document_path)
-    matches = await matcher.match_all(rules, document_text, metadata)
 
-    # 매칭된 규칙에 대해서만 Critique 생성 + 방어 예측
-    rules_by_id = {r.rule_id: r for r in rules}
-    critiques = []
-    for match in matches:
-        rule = rules_by_id[match.rule_id]
-        critique = await generator.generate(rule, match)
-        critique.defense_prediction = await defender.predict(critique)
-        critiques.append(critique)
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
+        transient=True,
+    ) as progress:
+        task = progress.add_task("문서 분석 중...", total=None)
+        metadata = await analyzer.analyze(document_path)
 
-    # 4. 스코어링 & 정렬
+        progress.update(task, description=f"규칙 {len(rules)}개 매칭 중...")
+        matches = await matcher.match_all(rules, document_text, metadata)
+
+        console.print(f"[green]매칭된 규칙: {len(matches)}개[/green]")
+
+        progress.update(task, description="비판 생성 + 방어 예측 중...")
+        rules_by_id = {r.rule_id: r for r in rules}
+        tasks = [
+            _generate_with_defense(rules_by_id[m.rule_id], m, generator, defender)
+            for m in matches
+            if m.rule_id in rules_by_id
+        ]
+        results = await asyncio.gather(*tasks)
+
+    critiques = [c for c in results if c is not None]
+
     scored = scorer.score(critiques, str(document_path))
 
-    # 5. 상위 N개 / 접힌 영역 분리
     top_n = settings.display_top_n
     return Report(
         document_path=str(document_path),
