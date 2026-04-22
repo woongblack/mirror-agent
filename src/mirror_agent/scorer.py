@@ -32,9 +32,10 @@ class Scorer:
         critiques: list[Critique],
         document_path: str,
     ) -> list[Critique]:
-        """novelty_score와 final_score를 계산하여 정렬된 Critique 반환."""
-        raise NotImplementedError("다음 세션에서 구현")
+        """confidence_label 기준 정렬. novelty 계산은 v0.2에서 구현."""
+        _ORDER = {"high": 0, "medium_high": 1, "medium": 2, "seed": 3}
+        return sorted(critiques, key=lambda c: _ORDER.get(c.confidence_label.value, 9))
 
     def _load_history(self, document_path: str) -> list[ReportHistoryEntry]:
         """해당 문서에 대한 이전 리포트 기록 로드."""
-        raise NotImplementedError("다음 세션에서 구현")
+        return []  # v0.2에서 구현
