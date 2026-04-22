@@ -38,7 +38,7 @@ def load_rules(
         raise FileNotFoundError(f"규칙 디렉토리 없음: {rules_dir}")
 
     rules: list[Rule] = []
-    for json_file in sorted(rules_dir.glob("*.json")):
+    for json_file in sorted(rules_dir.glob("rule_*.json")):
         with open(json_file, encoding="utf-8") as f:
             data = json.load(f)
         rule = Rule.model_validate(data)

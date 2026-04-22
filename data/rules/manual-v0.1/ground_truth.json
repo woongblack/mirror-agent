@@ -1,0 +1,67 @@
+{
+  "description": "Mirror Agent v0.1 회고 테스트 정답셋. ALLBLUE README 스냅샷에 대해 생성되어야 할 비판의 정답지.",
+  "target_document": "tests/fixtures/allblue-readme-snapshot.md",
+  "evaluation_criteria": {
+    "recall": {
+      "description": "ground truth 3건 중 몇 건이 유사 질문으로 생성되는가",
+      "threshold": 2,
+      "unit": "out_of_3"
+    },
+    "precision": {
+      "description": "전체 생성 비판 중 사용자가 '타당하다'고 판정한 비율",
+      "threshold": 0.5,
+      "unit": "ratio"
+    },
+    "critical_hit": {
+      "description": "rule_supplier_first에서 파생된 비판이 반드시 포함되어야 함",
+      "required": true
+    },
+    "novelty": {
+      "description": "일반 LLM 비판과 구분 가능해야 함. 사용자 블라인드 평가",
+      "required": true,
+      "evaluation_method": "manual_blind_comparison"
+    }
+  },
+  "ground_truth": [
+    {
+      "id": "gt_001",
+      "title": "AI 합성 Snap 클론 차별화 의문",
+      "expected_question": "이것이 무신사 Snap에 AI 합성 기능을 추가한 클론 아닌가? Snap 대신 ALLBLUE를 선택할 구체적 사용자 가치가 문서에 명시되어 있는가?",
+      "related_rule": "rule_differentiation_explicit",
+      "past_evidence_reference": "DEKK 팀에게 'Snap 클론이면 똑같아지는 거 아니냐?' (conversation-log.md#phase7)",
+      "document_excerpt_expected": "크로스 셀러 AI 룩북 오케스트레이터 (단순 애그리게이터 ✕) / A셀러 상의 + B셀러 하의 + C셀러 신발 → AI가 하나의 룩북으로 합성"
+    },
+    {
+      "id": "gt_002",
+      "title": "Phase 3 Premature 설계",
+      "expected_question": "Phase 3(카페24 연동 + 통합결제)가 Phase 1 검증 실패 시 어떻게 되는지 문서에 기술되어 있는가? Phase 1이 실패하면 Phase 3의 Saga 패턴 설계는 전부 매몰비용 아닌가?",
+      "related_rule": "rule_post_mvp_concreteness",
+      "past_evidence_reference": "DEKK 팀에게 '그래서 이 이후에는 어떻게 할 건데?' (conversation-log.md#phase6)",
+      "document_excerpt_expected": "Phase 1: 단품 크롤링 수신 + AI 룩북 PoC + SNS 검증 / Phase 3: 카페24 연동 + PortOne 통합 결제 + Saga"
+    },
+    {
+      "id": "gt_003",
+      "title": "카페24 셀러 확보 전략 부재 (CRITICAL HIT)",
+      "expected_question": "ALLBLUE가 카페24 셀러를 어떻게 확보할 것인가? 카페24 셀러가 이미 자사몰/네이버/쿠팡에 입점해 있는데, ALLBLUE에 추가 입점할 경제적 동기가 있는가?",
+      "related_rule": "rule_supplier_first",
+      "past_evidence_reference": "DEKK 팀에게 '셀러는 어떻게 구할 건데?' (conversation-log.md#phase6)",
+      "document_excerpt_expected": "Phase 3: 카페24 연동 + PortOne 통합 결제 + Saga",
+      "is_critical_hit": true,
+      "notes": "이 비판은 반드시 잡아야 함. v0.1의 존재 의의 검증 기준."
+    }
+  ],
+  "bonus_detections": [
+    {
+      "id": "bonus_001",
+      "title": "1인 운영 가능성",
+      "expected_rule": "rule_solo_operability",
+      "notes": "잡으면 보너스. Phase 2 성공 기준에는 포함 안 됨."
+    },
+    {
+      "id": "bonus_002",
+      "title": "사용자 니즈 증거 부재",
+      "expected_rule": "rule_user_need_evidence",
+      "notes": "'파편화된 쇼핑', '다양한 코디' 등이 사용자 니즈인지 검증 부재"
+    }
+  ]
+}
