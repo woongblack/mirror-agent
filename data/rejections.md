@@ -21,4 +21,14 @@
 
 ---
 
+## 2026-04-23 — allblue-readme-snapshot.md
+
+| 비판 # | 규칙 ID | 판정 | 이유 |
+|--------|---------|------|------|
+| 1 | rule_differentiation_explicit | 수용 | 문서에 "AI가 룩북으로 합성"이라고 썼지만 유저가 이걸 원한다는 근거가 없음. 기술 구현을 사용자 수요 증거로 쓰고 있었음을 인정. |
+| 2 | rule_post_mvp_concreteness | 수용 | 무엇만 다르지 맥락 자체는 동일함. 지금 결정해야 될 일을 나중으로 미루고 있음. |
+| 3 | rule_supplier_first | 반려 | 당장은 구할 수 없으니 mock으로라도 data를 만들어 구현하려고 했음. |
+| 4 | rule_solo_operability | 반려 | DEKK 팀 프로젝트에서 결정한 스택이고, ALLBLUE는 DEKK에서 fork해서 수정한 것이라 명확한 이유가 있음. |
+| 5 | rule_motivation_honesty | 수용 | 수익화는 프로젝트 존재 이유에서 빠질 수 없는데 나중으로 미뤘음. 사용자 관심도 체크가 선행되어야 함을 인정. |
+
 <!-- 아래에 판정 기록 추가 -->
