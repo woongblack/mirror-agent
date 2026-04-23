@@ -1,1 +1,55 @@
-{}
+{
+  "version": "v0.1",
+  "source": "docs/origin/conversation-log.md — 반사실적 데이터 섹션",
+  "description": "Mirror Agent가 이미 존재했다면 잡았어야 할 것들. Re-Applicator 합격선: 3개 중 2개 이상 생성.",
+  "test_document": "tests/fixtures/allblue-readme-snapshot.md",
+  "pass_threshold": 2,
+  "items": [
+    {
+      "id": "gt_001",
+      "rule_id": "rule_differentiation_explicit",
+      "target_document": "allblue-readme-snapshot.md",
+      "expected_critique_theme": "AI 합성 붙인 Snap 클론 아닌가 — 차별화 지점이 테스트 가능한 가설로 표현되어 있는가",
+      "source_quote": "ALLBLUE README 작성 시점에 'Snap 클론이라는 과거 비판이 여기도 적용되는가?'를 묻는 것",
+      "source_location": "conversation-log.md#반사실적데이터",
+      "priority": "critical",
+      "verified_at": "2026-04-23",
+      "pipeline_result": "matched",
+      "pipeline_critique": "비판 #1 — 클론의 차별화 지점은 명시되어야 한다"
+    },
+    {
+      "id": "gt_002",
+      "rule_id": "rule_post_mvp_concreteness",
+      "target_document": "allblue-readme-snapshot.md",
+      "expected_critique_theme": "Phase 1 검증 실패 시 Phase 3 설계는 어떻게 되는가",
+      "source_quote": "Phase 3 로드맵 작성 시점에 'Phase 1 검증 실패 시 이 설계는 어떻게 되는가?'를 묻는 것",
+      "source_location": "conversation-log.md#반사실적데이터",
+      "priority": "high",
+      "verified_at": "2026-04-23",
+      "pipeline_result": "matched",
+      "pipeline_critique": "비판 #2 — 첫 단계 이후의 구체적 계획 원칙 (critique_template에 '검증 실패 시 대응' 각도 추가 후 재확인)",
+      "gap": null
+    },
+    {
+      "id": "gt_003",
+      "rule_id": "rule_solo_operability",
+      "target_document": "inspection-agent-design.md",
+      "expected_critique_theme": "에이전트 5개가 정말 필요한가 — 자율 검수 에이전트 설계서 대상",
+      "source_quote": "자율 검수 에이전트 설계서 작성 시점에 '에이전트 5개가 정말 필요한가?'를 묻는 것",
+      "source_location": "conversation-log.md#반사실적데이터",
+      "priority": "high",
+      "verified_at": "2026-04-23",
+      "pipeline_result": "matched",
+      "pipeline_critique": "비판 #3 — 1인 운영 가능성 검증 원칙 (Claude Agent SDK + Redis Streams + Prometheus + Loki 스택 대상)",
+      "gap": null
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "matched": 3,
+    "partial": 0,
+    "not_applicable": 0,
+    "pass": true,
+    "note": "3/3 전부 matched. Ground Truth 완전 재현 달성 (2026-04-23)."
+  }
+}
