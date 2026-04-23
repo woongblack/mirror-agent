@@ -5,7 +5,7 @@
   "trigger_conditions": {
     "document_has_phased_roadmap": true
   },
-  "critique_template": "이 {current_phase}가 완료된 이후, 다음 단계는 무엇이며 구체적으로 기술되어 있는가?",
+  "critique_template": "이 {current_phase}가 완료된 이후, 다음 단계는 무엇이며 구체적으로 기술되어 있는가? 특히 현재 단계 검증이 실패했을 때의 대응이 포함되어 있는가?",
   "evidence_questions": [
     "현재 Phase가 성공했을 때 다음 Phase로의 전환 조건은 무엇인가?",
     "현재 Phase가 실패했을 때 다음 Phase는 어떻게 되는가?",
