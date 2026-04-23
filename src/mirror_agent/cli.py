@@ -33,9 +33,15 @@ def main() -> None:
     "-o",
     type=click.Path(path_type=Path),
     default=None,
-    help="리포트 저장 경로. 미지정 시 data/reports/ 아래 자동 생성.",
+    help="리포트 저장 디렉토리. 미지정 시 data/reports/{doc_slug}/ 아래 자동 저장.",
 )
-def review(document_path: Path, output: Path | None) -> None:
+@click.option(
+    "--no-save",
+    is_flag=True,
+    default=False,
+    help="파일 저장 없이 stdout만 출력.",
+)
+def review(document_path: Path, output: Path | None, no_save: bool) -> None:
     """문서를 검토하여 맹점 리포트 생성."""
     from mirror_agent.pipeline import run_mirror_review
     from mirror_agent.reporter import Reporter
@@ -44,13 +50,13 @@ def review(document_path: Path, output: Path | None) -> None:
     report = asyncio.run(run_mirror_review(document_path))
 
     reporter = Reporter()
-    markdown = reporter.render(report)
+    console.print(reporter.render(report))
 
-    if output:
-        output.write_text(markdown, encoding="utf-8")
-        console.print(f"[green]리포트 저장됨:[/green] {output}")
-    else:
-        console.print(markdown)
+    if not no_save:
+        project_root = Path(__file__).resolve().parent.parent.parent
+        save_dir = output if output else project_root / "data" / "reports" / document_path.stem
+        saved_path = reporter.save(report, save_dir)
+        console.print(f"[green]리포트 저장됨:[/green] {saved_path}")
 
 
 @main.group()
