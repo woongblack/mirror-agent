@@ -55,7 +55,7 @@
 
 ## 현재 구현 상태
 
-### ✅ 완료
+### ✅ 완료 (v0.1 구현)
 - 프로젝트 구조, pyproject.toml, .env.example
 - 전체 Pydantic 모델 (`src/mirror_agent/models.py`)
 - 규칙 JSON 8개 + 방어 패턴 5개 (Ground Truth 포함)
@@ -63,53 +63,40 @@
 - 설정 (`src/mirror_agent/config.py`)
 - 테스트 fixture (ALLBLUE README 스냅샷)
 - Evaluation ground truth (`eval/ground_truth.json`)
-- 모든 핵심 모듈의 stub + 인터페이스
+- `llm.py`: Anthropic AsyncClient, `structured_call` (tool use), `text_call`, 재시도 로직
+- `analyzer.py`: 마크다운 섹션 파싱, LLM으로 `DocumentMetadata` 추출, `key_excerpts` 보관
+- `matcher.py`: 규칙×문서 LLM 호출, Evidence 없으면 강제 `matches=False`, confidence 필터링
+- `generator.py`: 템플릿 변수 치환, `past_evidence` / `document_excerpt` 재사용
+- `defender.py`: 비판-방어패턴 의미 유사도 매칭, conversation-log.md 맥락 LLM 추론
+- `scorer.py`: confidence_label 기준 정렬, 상위 N개 선택 (novelty 계산은 v0.2 연기)
+- `reporter.py`: Markdown 출력, 상위 N개 표시, 나머지 `<details>` 접기, 방어 예측 포함
+- `pipeline.py`: Analyzer→Matcher→Generator→Defender→Scorer→Reporter 전체 파이프라인
+- `cli.py`: `main()`, `rules list`, `rules show`, `review` 커맨드
 
-### 🔄 다음 세션 작업 (구현 순서)
+### 🔄 일부 구현 (v0.2 연기)
+- `scorer.py`: novelty_score / repetition_penalty / 리포트 히스토리 로드 미구현 (현재 confidence_label 정렬만)
 
-이 순서를 **절대 바꾸지 말 것**. 각 단계가 다음 단계를 검증 가능하게 만든다.
+### 🔄 검증 대기
+- `ANTHROPIC_API_KEY` 필요 — 실제 LLM 호출 미실행
+- `allblue-readme-snapshot.md` 대상 end-to-end 실행 및 `eval/ground_truth.json` 대비 측정 필요
+- 테스트 6건 모두 통과 (단, LLM 호출 없는 단위 테스트 기준)
 
-1. **`llm.py` 구현**
-   - Anthropic AsyncClient 초기화
-   - `structured_call`: Pydantic 모델로 파싱 강제 (tool use 활용)
-   - `text_call`: 일반 텍스트
-   - 간단한 재시도 로직
+### 🔜 다음 세션 작업 (v0.1 검증)
 
-2. **`analyzer.py` 구현**
-   - 마크다운을 섹션별로 파싱
-   - LLM으로 `DocumentMetadata` 추출
-   - `key_excerpts`에 주요 구절 보관 (Evidence 재사용)
+1. **API 키 설정 후 end-to-end 실행**
+   ```bash
+   export ANTHROPIC_API_KEY=...
+   uv run mirror review tests/fixtures/allblue-readme-snapshot.md
+   ```
 
-3. **`matcher.py` 구현**
-   - `MATCHER_SYSTEM_PROMPT`에 "추측 금지" 이미 포함됨
-   - 규칙 하나당 1회 LLM 호출
-   - Evidence 필드가 비어있으면 강제로 `matches=False`
-   - `confidence < threshold` 필터링
+2. **합격 기준 측정**
+   - `eval/ground_truth.json`의 3건 중 2건 이상 유사 질문 생성 확인
+   - `rule_supplier_first` Critical Hit 포함 여부 확인
+   - 수동 블라인드 평가 (Precision/Novelty)
 
-4. **`generator.py` 구현**
-   - 템플릿 변수 치환 (단순 `.format()` 또는 LLM 정제)
-   - `past_evidence`는 `rule.source_critiques`에서 1개 선택
-   - `document_excerpt`는 `MatchResult.evidence_from_document` 재사용
-
-5. **`defender.py` 구현** ⭐ 가장 중요
-   - 비판-방어패턴 의미 유사도 매칭
-   - 매칭 없으면 LLM으로 conversation-log.md 맥락 주입하여 추론
-   - `matched_pattern_id` 기록
-
-6. **`scorer.py` 구현**
-   - 이전 리포트 히스토리 로드
+3. **v0.2 scorer.py novelty 구현** (검증 통과 후)
+   - `data/reports/` 히스토리 로드
    - `final_score = confidence × (1 + novelty_bonus - repetition_penalty)`
-   - 정렬 + 상위 N개 선택
-
-7. **`reporter.py` 구현**
-   - Markdown 템플릿
-   - 상위 N개 표시, 나머지는 `<details>` 접기
-   - 방어 예측은 각 비판 하단에 표시
-
-8. **End-to-end 테스트**
-   - `allblue-readme-snapshot.md`에 대해 파이프라인 실행
-   - `eval/ground_truth.json`의 3건 중 2건 이상 재현 확인
-   - `rule_supplier_first` Critical Hit 필수
 
 ---
 
