@@ -76,16 +76,24 @@
 ### 🔄 일부 구현 (v0.2 연기)
 - `scorer.py`: novelty_score / repetition_penalty / 리포트 히스토리 로드 미구현 (현재 confidence_label 정렬만)
 
-### 🔄 검증 대기
-- `ANTHROPIC_API_KEY` 필요 — 실제 LLM 호출 미실행
-- `allblue-readme-snapshot.md` 대상 end-to-end 실행 및 `eval/ground_truth.json` 대비 측정 필요
-- 테스트 6건 모두 통과 (단, LLM 호출 없는 단위 테스트 기준)
+### ✅ 검증 완료 (2026-04-23)
+- end-to-end 실행 완료 — Ground Truth 3/3 재현
+- Phase 3 실사용 사이클 1회 완료 — Precision 60% (합격선 통과)
+- 판정 기록: `data/rejections.md` (수용 3 / 반려 2)
+- 테스트 6건 모두 통과
 
-### 🔜 다음 세션 작업 (v0.1 검증)
+### 🔜 다음 세션 작업 (Phase 4-A Extractor)
 
-1. **API 키 설정 후 end-to-end 실행**
+1. **ALLBLUE README 수정** (수용한 비판 3개 반영)
    ```bash
-   export ANTHROPIC_API_KEY=...
+   # 수용 항목:
+   # 1. 차별화 지점을 테스트 가능한 가설로 재작성
+   # 2. Phase 1 실패 시 대응 기준 추가
+   # 5. 사용자 관심도 검증 계획 추가
+   ```
+
+2. **Extractor 구현** (`src/mirror_agent/extractor.py`)
+   ```bash
    uv run mirror review tests/fixtures/allblue-readme-snapshot.md
    ```
 

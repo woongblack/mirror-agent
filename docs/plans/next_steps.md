@@ -135,9 +135,9 @@ uv run mirror review tests/fixtures/allblue-readme-snapshot.md
 
 ### 완료 조건
 
-- [ ] 최소 1회 리포트 → 수정 → 재실행 사이클 완주
-- [ ] 수용/반려 판정 5건 기록
-- [ ] ALLBLUE README commit 1회
+- [x] 최소 1회 리포트 → 수정 → 재실행 사이클 완주 (2026-04-23)
+- [x] 수용/반려 판정 5건 기록 (수용 3 / 반려 2, Precision 60%)
+- [ ] ALLBLUE README commit 1회 ← 수용한 비판 3개 반영 필요
 
 ### ⚠️ 이 Step이 Phase 3의 핵심
 
@@ -239,7 +239,7 @@ final_score = confidence × (1 + novelty_bonus - repetition_penalty)
 - [x] Step 1 — 리포트 저장 구조 (2026-04-23)
 - [x] Step 2 — gt_002 규칙 보완 (2026-04-23)
 - [x] Step 3 — 반려 기록 템플릿 (2026-04-23)
-- [ ] Step 4 — 실사용 사이클 1회
+- [x] Step 4 — 실사용 사이클 1회 (2026-04-23)
 - [x] Step 5 — gt_003 fixture (2026-04-23)
 - [ ] Step 6 — scorer novelty (v0.2)
 - [ ] Step 7 — Extractor (Phase 4-A)
@@ -254,4 +254,4 @@ final_score = confidence × (1 + novelty_bonus - repetition_penalty)
 
 ---
 
-*다음 단계: Step 1 → 2 → 3 한번에 수행 (총 1시간 미만)*
+*다음 단계: ALLBLUE README 수정 (Step 4 마무리) → Extractor 구현 (Step 7)*
