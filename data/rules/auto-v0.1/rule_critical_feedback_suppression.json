@@ -1,0 +1,29 @@
+{
+  "rule_id": "rule_critical_feedback_suppression",
+  "rule_name": "비판적 피드백 억압 문화 경보 원칙",
+  "confidence": "high",
+  "trigger_conditions": {
+    "target_type_in": [
+      "team_project",
+      "platform",
+      "marketplace",
+      "startup",
+      "organization"
+    ],
+    "project_is_solo": false
+  },
+  "critique_template": "{team_name} 팀 내부에 \"우리는 잘하고 있다\"는 집단적 확신이 팽배해 있지는 않은가? 외부 또는 내부에서 비판적 질문이 제기될 때, 그 질문 자체가 문제로 프레임되는 조직문화가 형성되어 있지는 않은가?",
+  "evidence_questions": [
+    "최근 3개월 내 팀 내부에서 제품/전략에 대한 비판적 의견이 제기된 사례가 있는가? 그 의견은 어떻게 처리되었는가?",
+    "외부인(투자자, 자문, 사용자)이 비판적 질문을 던졌을 때, 팀의 공식·비공식 반응은 어떠했는가?",
+    "팀 내에서 '우리가 틀렸을 수도 있다'는 전제로 진행된 의사결정 회의나 리뷰가 존재하는가?",
+    "반대 의견을 낸 팀원이 이후 의사결정 과정에서 소외되거나 불이익을 경험한 사례가 있는가?",
+    "현재 기획 문서에서 리스크나 약점으로 명시된 항목이 몇 개이며, 각각에 대한 대응 방안이 구체적으로 기술되어 있는가?"
+  ],
+  "source_critiques": [
+    "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개: 팀 내부에 '우리는 잘하고 있다'는 집단적 확신이 팽배했고, 내가 비판적 질문을 던질 때마다 질문 자체가 이"
+  ],
+  "user_conviction_level": "very_high",
+  "notes": "DEKK 팀에 대한 직접 관찰에서 도출된 규칙. 단순한 전략 오류가 아니라, 오류를 감지하고 수정할 수 있는 피드백 루프 자체가 차단된 메타 수준의 조직 문제. 이 상태가 지속되면 외부 비판은 무시되고 내부 경고는 억압되어 치명적 blind spot이 형성될 가능성이 높음. 기획 문서에 리스크 섹션이 존재하더라도 형식적으로 작성된 경우가 많아, evidence_questions를 통한 실질적 검증이 필수.",
+  "validated_by_user": false
+}

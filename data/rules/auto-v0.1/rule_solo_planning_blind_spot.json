@@ -1,0 +1,26 @@
+{
+  "rule_id": "rule_solo_planning_blind_spot",
+  "rule_name": "1인 기획 단독 검토 한계 원칙",
+  "confidence": "high",
+  "trigger_conditions": {
+    "target_type_in": [
+      "personal_project",
+      "solo_project"
+    ],
+    "project_is_solo": true
+  },
+  "critique_template": "이 기획은 {planner}가 혼자 검토한 결과물이다. 단독 사고로 인해 발생할 수 있는 기획상 헛점(논리적 비약, 시장 가정 오류, 수요 과대 추정 등)을 외부 시각에서 검증받은 적이 있는가?",
+  "evidence_questions": [
+    "이 기획의 핵심 가정(문제 정의, 타깃 유저, 해결 방식)을 제3자에게 검토받은 적이 있는가?",
+    "기획 과정에서 반박하거나 다른 시각을 제시한 사람이 있었는가? 없었다면 그 공백을 어떻게 메웠는가?",
+    "이전 팀 프로젝트에서 발견된 기획 결함과 유사한 패턴이 현재 기획에도 반복되고 있지는 않은가?",
+    "기획서에서 '당연히 될 것'이라고 전제하고 있는 항목들을 명시적으로 나열했을 때, 각각의 근거가 존재하는가?",
+    "혼자 판단하기 어려운 영역(예: 기술 실현 가능성, 시장 규모, 경쟁사 대응)에 대해 외부 데이터나 전문가 의견을 참조했는가?"
+  ],
+  "source_critiques": [
+    "conversation-log.md#phase63차전환점dekk와allblue의실제맥락공개: 내가 Dekk이라는 프로젝트를 팀과 했었는데 기획적인 부분의 헛점이 많아서 혼자 나와서 ALLBLUE라는 프"
+  ],
+  "user_conviction_level": "high",
+  "notes": "사용자가 팀 프로젝트(Dekk)에서의 기획 결함을 경험하고 1인 프로젝트(ALLBLUE)를 시작했으나, 단독 검토의 한계로 인해 유사한 헛점이 발생할 수 있음을 스스로 인지한 상황에서 파생된 규칙. 1인 기획자가 자기 확증 편향(confirmation bias)에 빠질 위험성을 구조적으로 짚는 데 초점.",
+  "validated_by_user": false
+}

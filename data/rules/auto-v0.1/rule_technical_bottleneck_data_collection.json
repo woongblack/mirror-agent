@@ -1,0 +1,29 @@
+{
+  "rule_id": "rule_technical_bottleneck_data_collection",
+  "rule_name": "핵심 데이터 수집 기술 실행 가능성 검증 원칙",
+  "confidence": "medium_high",
+  "trigger_conditions": {
+    "target_type_in": [
+      "platform",
+      "marketplace",
+      "aggregator",
+      "data_product",
+      "two_sided_market"
+    ],
+    "has_supply_side": true
+  },
+  "critique_template": "이 서비스의 핵심 기능인 {core_feature}를 구현하기 위해 {data_source}에서 {data_type} 데이터를 수집하는 것이 기술적으로 실행 가능한가? 이 데이터 수집 방식의 한계와 병목 지점이 명확히 검토되었는가?",
+  "evidence_questions": [
+    "현재 {data_source}에서 {data_type} 데이터를 수집하기 위해 사용할 구체적인 기술 방식(공식 API, 크롤링, 제휴 등)이 확정되어 있는가?",
+    "{data_source} 측의 정책(이용약관, robots.txt, API 접근 제한 등)이 데이터 수집을 허용하는가?",
+    "데이터 수집 실패 또는 수집량 제한 시 서비스의 핵심 가치 제안이 유지될 수 있는 대안 시나리오가 있는가?",
+    "실제 {data_source}에서 {data_type} 데이터를 수집하는 프로토타입 또는 PoC(개념 검증) 결과가 존재하는가?",
+    "데이터 수집 비용(서버, 인력, 제휴 비용 등)이 비즈니스 모델 안에서 감당 가능한 수준으로 계산되어 있는가?"
+  ],
+  "source_critiques": [
+    "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개: 기술적으로 어려울 수는 있지만, 상품 데이터를 가져오는 부분이 한계점이야."
+  ],
+  "user_conviction_level": "high",
+  "notes": "DEKK의 다중 쇼핑몰 상품 데이터 통합 사례에서 파생된 규칙. 외부 플랫폼/소스에서 데이터를 끌어와 서비스 가치를 창출하는 구조에서, 그 데이터 수집 자체가 기술적 병목이 되는 경우를 포착한다. 특히 기획 문서가 데이터 수집을 당연한 전제로 깔고 핵심 기능을 설계했을 때 반드시 발동되어야 하는 규칙.",
+  "validated_by_user": false
+}

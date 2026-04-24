@@ -1,0 +1,27 @@
+{
+  "rule_id": "rule_feedback_misinterpretation",
+  "rule_name": "피드백 의도 오독 방지 원칙",
+  "confidence": "medium",
+  "trigger_conditions": {
+    "target_type_in": [
+      "platform",
+      "marketplace",
+      "team_project",
+      "personal_project"
+    ]
+  },
+  "critique_template": "\"{critique_point}\"라는 비판을 팀/작성자가 \"{misread_point}\"로 해석하고 있지는 않은가? 제기된 비판의 핵심이 무엇인지 정확히 파악하고 있는가?",
+  "evidence_questions": [
+    "비판자가 지적한 구조적 문제(예: {critique_point})와 팀이 실제로 이해한 내용(예: {misread_point})이 일치하는가?",
+    "피드백에 대한 팀의 답변이 원래 비판의 논점을 정면으로 다루고 있는가, 아니면 다른 맥락으로 치환하여 회피하고 있는가?",
+    "팀 내에 외부 피드백을 수용·분류하는 명시적인 프로세스(예: 비판 유형 분류, 담당자 지정)가 존재하는가?",
+    "동일한 피드백에 대해 팀원 간 해석이 일치하는가? 서로 다른 해석을 조율하는 절차가 있는가?",
+    "과거에 수령한 피드백 중 오독으로 인해 후속 개선이 이루어지지 않은 사례가 있는가?"
+  ],
+  "source_critiques": [
+    "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개: 기획의 헛점을 지적한 건데 '클론한 게 의미 없다는 거냐'는 식으로 되돌아오는 답변을 듣고 의아했지."
+  ],
+  "user_conviction_level": "high",
+  "notes": "DEKK 팀이 '차별화 전략 부재'라는 구조적 비판을 '클론의 의미 자체를 부정하는 것이냐'는 전혀 다른 프레임으로 재해석한 커뮤니케이션 오류에서 도출된 규칙. 비판의 논점이 미끄러지는 현상은 팀 프로젝트뿐 아니라 개인 기획 문서 리뷰에서도 빈번하게 나타나므로 범용 적용 가능. confidence는 발화 샘플이 1개로 적어 medium으로 설정; 유사 사례 누적 시 medium_high 이상으로 상향 권장.",
+  "validated_by_user": false
+}
