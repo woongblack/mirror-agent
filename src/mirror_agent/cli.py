@@ -140,6 +140,34 @@ def generalize(critiques_path: Path, output: Path | None, no_save: bool) -> None
             console.print(f"[green]저장됨:[/green] {path}")
 
 
+@main.command()
+@click.argument("document_path", type=click.Path(exists=True, path_type=Path))
+@click.option("--no-save", is_flag=True, default=False, help="stdout만 출력.")
+def socratic(document_path: Path, no_save: bool) -> None:
+    """문서의 숨겨진 가정을 드러내는 질문 생성."""
+    from mirror_agent.analyzer import DocumentAnalyzer
+    from mirror_agent.config import Settings
+    from mirror_agent.llm import LLMClient
+    from mirror_agent.socratic import SocraticAgent
+
+    settings = Settings.from_env()
+    llm = LLMClient(settings)
+    analyzer = DocumentAnalyzer(llm)
+    agent = SocraticAgent(llm, model=settings.model_generator)
+
+    console.print(f"[bold cyan]Socratic Agent[/bold cyan] 분석 중: {document_path}")
+    document_text = document_path.read_text()
+    metadata = asyncio.run(analyzer.analyze(document_path))
+    questions = asyncio.run(agent.interrogate(document_text, metadata))
+
+    console.print(f"[green]{len(questions)}개 질문 생성 완료[/green]\n")
+    for i, q in enumerate(questions, 1):
+        severity_color = {"high": "red", "medium": "yellow", "low": "white"}[q.severity]
+        console.print(f"[{severity_color}]#{i} [{q.angle}] {q.question}[/{severity_color}]")
+        console.print(f"  가정: {q.assumption}")
+        console.print(f"  근거: {q.evidence_from_document[:80]}...\n")
+
+
 @main.group()
 def rules() -> None:
     """규칙 관리 명령."""

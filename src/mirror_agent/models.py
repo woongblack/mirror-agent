@@ -208,6 +208,23 @@ class DefensePrediction(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Socratic Agent — 숨겨진 가정 드러내기
+# ---------------------------------------------------------------------------
+
+
+class SocraticQuestion(BaseModel):
+    """문서의 숨겨진 가정에서 파생된 질문."""
+
+    assumption: str = Field(..., description="드러난 숨겨진 가정")
+    question: str = Field(..., description="'왜 ~인가?' 형태의 질문")
+    angle: Literal["market", "tech", "operation", "motivation", "competition"] = Field(
+        ..., description="질문의 각도"
+    )
+    severity: Literal["high", "medium", "low"]
+    evidence_from_document: str = Field(..., description="가정이 담긴 문서 인용")
+
+
+# ---------------------------------------------------------------------------
 # Final Critique — 사용자에게 제시되는 단위
 # ---------------------------------------------------------------------------
 
