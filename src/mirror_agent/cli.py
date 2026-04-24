@@ -215,6 +215,47 @@ def contrarian(document_path: Path, no_save: bool) -> None:
         console.print(f"  함의: {c.implication[:80]}...\n")
 
 
+@main.command()
+@click.argument("idea_path", type=click.Path(exists=True, path_type=Path))
+@click.option("--max-rounds", default=3, show_default=True, help="최대 Ouroboros 순환 횟수.")
+@click.option("--no-save", is_flag=True, default=False, help="stdout만 출력.")
+def plan(idea_path: Path, max_rounds: int, no_save: bool) -> None:
+    """아이디어 텍스트 → Ouroboros Loop → 구조화된 기획안 생성."""
+    import mirror_agent.planner as planner_module
+
+    from mirror_agent.config import DATA_DIR, Settings
+
+    planner_module.MAX_ROUNDS = max_rounds
+
+    from mirror_agent.planner import PlanningAgent
+
+    settings = Settings.from_env()
+    agent = PlanningAgent(settings)
+
+    idea_text = idea_path.read_text()
+    console.print(f"[bold cyan]Planning Agent[/bold cyan] 구조화 중: {idea_path}")
+    console.print(f"최대 {max_rounds}회 Ouroboros Loop 실행")
+
+    draft = asyncio.run(agent.plan(idea_text))
+
+    console.print(f"\n[green]완료 — {len(draft.rounds)}회 순환 | 최종 ambiguity: {draft.final_ambiguity:.2f} | 수렴: {draft.converged}[/green]\n")
+
+    for r in draft.rounds:
+        console.print(f"[dim]--- Round {r.round_number} (ambiguity: {r.ambiguity_score:.2f}) ---[/dim]")
+
+    console.print("\n## 최종 기획안\n")
+    console.print(draft.final_draft)
+
+    if not no_save:
+        out_dir = DATA_DIR / "plans"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        from datetime import datetime
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        out_path = out_dir / f"{ts}_{idea_path.stem}.md"
+        out_path.write_text(draft.final_draft)
+        console.print(f"\n[green]저장됨:[/green] {out_path}")
+
+
 @main.group()
 def rules() -> None:
     """규칙 관리 명령."""

@@ -328,6 +328,32 @@ class Report(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Planning Agent — Ouroboros Loop 기획 구조화
+# ---------------------------------------------------------------------------
+
+
+class PlanningRound(BaseModel):
+    """Ouroboros Loop 1회 순환 결과."""
+
+    round_number: int
+    draft: str = Field(..., description="이 라운드의 기획안 (Markdown)")
+    ambiguity_score: float = Field(..., ge=0.0, le=1.0, description="0=완전 명확, 1=완전 모호")
+    open_questions: list[str] = Field(default_factory=list, description="아직 미해결 질문")
+    changes_from_prev: str = Field(default="", description="이전 라운드 대비 변경 사항")
+
+
+class PlanningDraft(BaseModel):
+    """Planning Agent 최종 출력."""
+
+    idea_input: str = Field(..., description="원본 아이디어 텍스트")
+    rounds: list[PlanningRound]
+    final_draft: str = Field(..., description="최종 기획안")
+    final_ambiguity: float = Field(..., ge=0.0, le=1.0)
+    converged: bool = Field(..., description="ambiguity_score ≤ 기준값으로 수렴했는가")
+    generated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+# ---------------------------------------------------------------------------
 # Report History — novelty_score 계산에 사용
 # ---------------------------------------------------------------------------
 
