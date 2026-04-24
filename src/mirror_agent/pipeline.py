@@ -21,6 +21,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from mirror_agent.analyzer import DocumentAnalyzer
 from mirror_agent.config import (
+    AUTO_RULES_DIR,
     DEFENSE_PATTERNS_PATH,
     REPORTS_DIR,
     RULES_DIR,
@@ -68,6 +69,8 @@ async def run_mirror_review(document_path: Path | str) -> Report:
     llm = LLMClient(settings)
 
     rules = load_rules(RULES_DIR)
+    if AUTO_RULES_DIR.exists():
+        rules += load_rules(AUTO_RULES_DIR)
     patterns = load_defense_patterns(DEFENSE_PATTERNS_PATH)
 
     analyzer = DocumentAnalyzer(llm)
