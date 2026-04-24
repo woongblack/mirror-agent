@@ -35,6 +35,7 @@ class LLMClient:
         system: str,
         user: str,
         response_model: type[T],
+        max_tokens: int = 4096,
     ) -> T:
         """구조화 출력을 강제하는 LLM 호출.
 
@@ -48,7 +49,7 @@ class LLMClient:
             try:
                 response = await self._client.messages.create(
                     model=model,
-                    max_tokens=2048,
+                    max_tokens=max_tokens,
                     system=[
                         {
                             "type": "text",

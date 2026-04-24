@@ -225,6 +225,23 @@ class SocraticQuestion(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Contrarian Agent — 반대 시나리오 탐색
+# ---------------------------------------------------------------------------
+
+
+class ContrarianChallenge(BaseModel):
+    """문서의 핵심 주장에 대한 반대 시나리오."""
+
+    claim: str = Field(..., description="문서의 핵심 주장")
+    counter_premise: str = Field(..., description="반대 전제")
+    counter_scenario: str = Field(..., description="반대 전제가 성립하는 구체적 시나리오")
+    challenge_question: str = Field(..., description="이 시나리오에서 나오는 질문")
+    implication: str = Field(..., description="반대 전제가 맞다면 어떤 결정이 달라지는가")
+    severity: Literal["high", "medium", "low"]
+    evidence_from_document: str = Field(..., description="claim이 담긴 문서 인용")
+
+
+# ---------------------------------------------------------------------------
 # Final Critique — 사용자에게 제시되는 단위
 # ---------------------------------------------------------------------------
 

@@ -168,6 +168,36 @@ def socratic(document_path: Path, no_save: bool) -> None:
         console.print(f"  근거: {q.evidence_from_document[:80]}...\n")
 
 
+@main.command()
+@click.argument("document_path", type=click.Path(exists=True, path_type=Path))
+@click.option("--no-save", is_flag=True, default=False, help="stdout만 출력.")
+def contrarian(document_path: Path, no_save: bool) -> None:
+    """문서의 핵심 주장에 반대 시나리오를 구성한다."""
+    from mirror_agent.analyzer import DocumentAnalyzer
+    from mirror_agent.config import Settings
+    from mirror_agent.contrarian import ContrarianAgent
+    from mirror_agent.llm import LLMClient
+
+    settings = Settings.from_env()
+    llm = LLMClient(settings)
+    analyzer = DocumentAnalyzer(llm)
+    agent = ContrarianAgent(llm, model=settings.model_generator)
+
+    console.print(f"[bold cyan]Contrarian Agent[/bold cyan] 분석 중: {document_path}")
+    document_text = document_path.read_text()
+    metadata = asyncio.run(analyzer.analyze(document_path))
+    challenges = asyncio.run(agent.challenge(document_text, metadata))
+
+    console.print(f"[green]{len(challenges)}개 반대 시나리오 생성 완료[/green]\n")
+    for i, c in enumerate(challenges, 1):
+        severity_color = {"high": "red", "medium": "yellow", "low": "white"}[c.severity]
+        console.print(f"[{severity_color}]#{i} {c.challenge_question}[/{severity_color}]")
+        console.print(f"  주장: {c.claim[:60]}...")
+        console.print(f"  반대 전제: {c.counter_premise}")
+        console.print(f"  시나리오: {c.counter_scenario[:80]}...")
+        console.print(f"  함의: {c.implication[:80]}...\n")
+
+
 @main.group()
 def rules() -> None:
     """규칙 관리 명령."""
