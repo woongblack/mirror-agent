@@ -1,0 +1,98 @@
+[
+  {
+    "id": "critique_001",
+    "source": "conversation-log.md#phase63차전환점dekk와allblue의실제맥락공개",
+    "raw_text": "내가 Dekk이라는 프로젝트를 팀과 했었는데 기획적인 부분의 헛점이 많아서 혼자 나와서 ALLBLUE라는 프로젝트를 다시 시작했어. 그러면서 혼자 기획에 대해서 검토하고 진행했었는데, 나도 이 기획에 방향성에 대해서 혼자만 생각하다 보니까 헛점이 많을 것 같은데",
+    "target_project": "ALLBLUE",
+    "target_type": "personal_project",
+    "domain": "product_planning",
+    "critique_category": "planning_blind_spot",
+    "emotional_marker": "skeptical",
+    "context": "Dekk 팀 프로젝트에서의 기획 결함 경험을 바탕으로, 1인 프로젝트인 ALLBLUE에서도 혼자만의 사고로 인한 기획상 헛점 위험성을 자각하고 있는 상황",
+    "extracted_at": "2026-04-24T03:50:49.890875"
+  },
+  {
+    "id": "critique_002",
+    "source": "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개",
+    "raw_text": "팀 내부에 '우리는 잘하고 있다'는 집단적 확신이 팽배했고, 내가 비판적 질문을 던질 때마다 질문 자체가 이상한 것으로 프레임되는 분위기였어.",
+    "target_project": "DEKK",
+    "target_type": "team_project",
+    "domain": "team_dynamics",
+    "critique_category": "organizational_culture",
+    "emotional_marker": "frustrated",
+    "context": "팀 내부에서 비판적 피드백이 정상적으로 작동하지 않고 있으며, 의문을 제기하는 행위 자체가 부정적으로 평가되는 문화 문제",
+    "extracted_at": "2026-04-24T03:50:49.890916"
+  },
+  {
+    "id": "critique_003",
+    "source": "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개",
+    "raw_text": "기획의 헛점을 지적한 건데 '클론한 게 의미 없다는 거냐'는 식으로 되돌아오는 답변을 듣고 의아했지.",
+    "target_project": "DEKK",
+    "target_type": "team_project",
+    "domain": "communication",
+    "critique_category": "misunderstanding_of_feedback",
+    "emotional_marker": "skeptical",
+    "context": "팀이 제기된 구조적 비판(차별화 전략 부재)을 완전히 다른 포인트(클론의 의미)로 해석하는 커뮤니케이션 오류",
+    "extracted_at": "2026-04-24T03:50:49.890930"
+  },
+  {
+    "id": "critique_004",
+    "source": "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개",
+    "raw_text": "클론 자체는 문제가 아닌데, 그 위에서 차별점이 만들어져야 한다고 생각했고, 나는 그 차별점을 이미지 생성으로 풀려고 했던 거야.",
+    "target_project": "DEKK",
+    "target_type": "team_project",
+    "domain": "product_strategy",
+    "critique_category": "missing_differentiation",
+    "emotional_marker": "neutral",
+    "context": "기존 쇼핑몰 서비스를 클론하는 데 그쳤고, 이를 구별화할 핵심 가치 제안(이미지 생성 기능)을 사후적으로 부여하려는 구조적 문제",
+    "extracted_at": "2026-04-24T03:50:49.890941"
+  },
+  {
+    "id": "critique_005",
+    "source": "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개",
+    "raw_text": "Snap은 한 쇼핑몰 내부의 상품들로만 구성되어 있는데, 나는 다른 쇼핑몰의 상품들까지 가져오면 더 다양한 코디룩이 나오고 그걸 사용자에게 제공할 수 있을 거라고 생각했어.",
+    "target_project": "DEKK",
+    "target_type": "team_project",
+    "domain": "product_design",
+    "critique_category": "scope_limitation",
+    "emotional_marker": "neutral",
+    "context": "Snap 기능의 단일 쇼핑몰 제한이 가치 제안(다양한 코디네이션)을 축소하는 설계상 한계",
+    "extracted_at": "2026-04-24T03:50:49.890951"
+  },
+  {
+    "id": "critique_006",
+    "source": "conversation-log.md#phase74차전환점가장결정적dekk에서의팀역학공개",
+    "raw_text": "기술적으로 어려울 수는 있지만, 상품 데이터를 가져오는 부분이 한계점이야.",
+    "target_project": "DEKK",
+    "target_type": "team_project",
+    "domain": "technical_architecture",
+    "critique_category": "technical_bottleneck",
+    "emotional_marker": "neutral",
+    "context": "다중 쇼핑몰 상품 통합의 기술적 실행 가능성 검토 부재 - 데이터 수집이 핵심 제약 요소로 미처 해결되지 않음",
+    "extracted_at": "2026-04-24T03:50:49.890960"
+  },
+  {
+    "id": "critique_007",
+    "source": "conversation-log.md#phase8최종인정프로젝트의진짜기원",
+    "raw_text": "나 스스로의 객관성이 혼자 하다 보니 많이 떨어진 것 같아. 이 부분 인정할게.",
+    "target_project": "현재 진행 중인 개인 프로젝트",
+    "target_type": "personal_project",
+    "domain": "프로젝트 관리·의사결정",
+    "critique_category": "검증 부재 및 객관성 결여",
+    "emotional_marker": "neutral",
+    "context": "혼자 프로젝트를 진행하면서 스스로에 대한 객관적 판단 능력이 감소했다는 자기 인식. 팀 환경과의 비교를 통해 인정.",
+    "extracted_at": "2026-04-24T03:50:49.890969"
+  },
+  {
+    "id": "critique_008",
+    "source": "conversation-log.md#phase8최종인정프로젝트의진짜기원",
+    "raw_text": "솔직히 그리고 좋은 사업 아이디어까지는 아니야. 하나의 프로젝트 정도로 생각하는 거지.",
+    "target_project": "현재 진행 중인 개인 프로젝트",
+    "target_type": "personal_project",
+    "domain": "비즈니스 모델·기획",
+    "critique_category": "근본적 가치 평가 재정의",
+    "emotional_marker": "neutral",
+    "context": "프로젝트를 사업 아이디어로서가 아닌 단순 개인 프로젝트로 재평가. 초기 전제에 대한 수정.",
+    "extracted_at": "2026-04-24T03:50:49.890978"
+  }
+]

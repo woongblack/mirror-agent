@@ -45,3 +45,6 @@ ignore = ["E501"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+markers = [
+    "integration: LLM API를 호출하는 통합 테스트 (pytest -m integration)",
+]
