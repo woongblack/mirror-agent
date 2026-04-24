@@ -82,29 +82,23 @@
 - 판정 기록: `data/rejections.md` (수용 3 / 반려 2)
 - 테스트 6건 모두 통과
 
-### 🔜 다음 세션 작업 (Phase 4-A Extractor)
+### ✅ 구현 완료 (2026-04-24)
 
-1. **ALLBLUE README 수정** (수용한 비판 3개 반영)
-   ```bash
-   # 수용 항목:
-   # 1. 차별화 지점을 테스트 가능한 가설로 재작성
-   # 2. Phase 1 실패 시 대응 기준 추가
-   # 5. 사용자 관심도 검증 계획 추가
-   ```
+Phase 3~5 전체 + v0.2 novelty 완료.
 
-2. **Extractor 구현** (`src/mirror_agent/extractor.py`)
-   ```bash
-   uv run mirror review tests/fixtures/allblue-readme-snapshot.md
-   ```
+```bash
+# 3개 에이전트 통합 실행
+uv run mirror review --full <document>
 
-2. **합격 기준 측정**
-   - `eval/ground_truth.json`의 3건 중 2건 이상 유사 질문 생성 확인
-   - `rule_supplier_first` Critical Hit 포함 여부 확인
-   - 수동 블라인드 평가 (Precision/Novelty)
+# Planning Agent
+uv run mirror plan <idea_file>
 
-3. **v0.2 scorer.py novelty 구현** (검증 통과 후)
-   - `data/reports/` 히스토리 로드
-   - `final_score = confidence × (1 + novelty_bonus - repetition_penalty)`
+# 규칙 자동화
+uv run mirror extract <log>
+uv run mirror generalize <critiques>
+```
+
+**다음 작업:** Phase 6 (Jira/Confluence) — 입사 후
 
 ---
 
