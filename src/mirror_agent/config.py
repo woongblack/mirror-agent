@@ -58,5 +58,6 @@ class Settings:
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 RULES_DIR = DATA_DIR / "rules" / "manual-v0.1"
+AUTO_RULES_DIR = DATA_DIR / "rules" / "auto-v0.1"
 DEFENSE_PATTERNS_PATH = DATA_DIR / "defense-patterns" / "patterns.json"
 REPORTS_DIR = DATA_DIR / "reports"

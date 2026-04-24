@@ -97,6 +97,49 @@ def extract(document_path: Path, output: Path | None, no_save: bool) -> None:
         console.print(f"[green]저장됨:[/green] {out_path}")
 
 
+@main.command()
+@click.argument("critiques_path", type=click.Path(exists=True, path_type=Path))
+@click.option(
+    "--output",
+    "-o",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="저장 디렉토리. 미지정 시 data/rules/pending/ 자동 저장.",
+)
+@click.option(
+    "--no-save",
+    is_flag=True,
+    default=False,
+    help="파일 저장 없이 stdout만 출력.",
+)
+def generalize(critiques_path: Path, output: Path | None, no_save: bool) -> None:
+    """CritiqueUnit → 추상 Rule 후보 생성."""
+    import json
+
+    from mirror_agent.config import DATA_DIR, Settings
+    from mirror_agent.generalizer import PENDING_DIR, Generalizer
+    from mirror_agent.models import CritiqueUnit
+
+    settings = Settings.from_env()
+    generalizer = Generalizer(settings)
+
+    raw = json.loads(critiques_path.read_text())
+    units = [CritiqueUnit.model_validate(u) for u in raw]
+    console.print(f"[bold cyan]Generalizer[/bold cyan] {len(units)}개 비판 → 규칙 후보 생성 중")
+
+    candidates = asyncio.run(generalizer.generalize(units))
+    console.print(f"[green]{len(candidates)}개 규칙 후보 생성 완료[/green]")
+
+    for rule in candidates:
+        console.print(f"  [{rule.rule_id}] {rule.rule_name} ({rule.confidence.value})")
+
+    if not no_save and candidates:
+        out_dir = output if output else DATA_DIR / "rules" / "pending"
+        saved = asyncio.run(generalizer.save(candidates, out_dir))
+        for path in saved:
+            console.print(f"[green]저장됨:[/green] {path}")
+
+
 @main.group()
 def rules() -> None:
     """규칙 관리 명령."""
