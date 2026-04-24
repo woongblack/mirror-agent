@@ -41,22 +41,39 @@ def main() -> None:
     default=False,
     help="파일 저장 없이 stdout만 출력.",
 )
-def review(document_path: Path, output: Path | None, no_save: bool) -> None:
+@click.option(
+    "--full",
+    is_flag=True,
+    default=False,
+    help="Historical + Socratic + Contrarian 3개 에이전트 통합 실행.",
+)
+def review(document_path: Path, output: Path | None, no_save: bool, full: bool) -> None:
     """문서를 검토하여 맹점 리포트 생성."""
-    from mirror_agent.pipeline import run_mirror_review
     from mirror_agent.reporter import Reporter
 
-    console.print(f"[bold cyan]Mirror Agent v0.1[/bold cyan] reviewing: {document_path}")
-    report = asyncio.run(run_mirror_review(document_path))
-
     reporter = Reporter()
-    console.print(reporter.render(report))
 
-    if not no_save:
-        project_root = Path(__file__).resolve().parent.parent.parent
-        save_dir = output if output else project_root / "data" / "reports" / document_path.stem
-        saved_path = reporter.save(report, save_dir)
-        console.print(f"[green]리포트 저장됨:[/green] {saved_path}")
+    if full:
+        from mirror_agent.config import Settings
+        from mirror_agent.orchestrator import Orchestrator
+
+        console.print(f"[bold cyan]Mirror Agent Full[/bold cyan] reviewing: {document_path}")
+        settings = Settings.from_env()
+        orch = Orchestrator(settings)
+        report = asyncio.run(orch.run(document_path))
+        console.print(reporter.render_full(report))
+    else:
+        from mirror_agent.pipeline import run_mirror_review
+
+        console.print(f"[bold cyan]Mirror Agent v0.1[/bold cyan] reviewing: {document_path}")
+        report = asyncio.run(run_mirror_review(document_path))
+        console.print(reporter.render(report))
+
+        if not no_save:
+            project_root = Path(__file__).resolve().parent.parent.parent
+            save_dir = output if output else project_root / "data" / "reports" / document_path.stem
+            saved_path = reporter.save(report, save_dir)
+            console.print(f"[green]리포트 저장됨:[/green] {saved_path}")
 
 
 @main.command()

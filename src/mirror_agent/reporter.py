@@ -10,7 +10,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from mirror_agent.models import Critique, Report, ReportHistoryEntry
+from mirror_agent.models import Critique, FullReport, Report, ReportHistoryEntry, UnifiedItem
 
 
 def _render_critique(critique: Critique, rank: int) -> str:
@@ -112,6 +112,55 @@ class Reporter:
             f"접힘 {len(report.critiques_collapsed)}개"
         )
 
+        return "\n".join(lines)
+
+    def render_full(self, report: FullReport) -> str:
+        """FullReport → 통합 마크다운."""
+        lines: list[str] = []
+        ts = report.generated_at.strftime("%Y-%m-%d %H:%M")
+        doc_name = Path(report.document_path).name
+        agent_badge = {"historical": "📜 Historical", "socratic": "🔍 Socratic", "contrarian": "⚔️ Contrarian"}
+        severity_icon = {"high": "🔴", "medium": "🟠", "low": "🟡"}
+
+        lines.append(f"# Mirror Agent Full Report — {doc_name}")
+        lines.append(f"생성: {ts} | 에이전트: Historical + Socratic + Contrarian")
+        lines.append(f"비판 {len(report.historical_critiques)}개 | 질문 {len(report.socratic_questions)}개 | 시나리오 {len(report.contrarian_challenges)}개")
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+        lines.append("## 핵심 질문 (통합 우선순위)")
+        lines.append("")
+
+        def _render_item(item: UnifiedItem, rank: int) -> str:
+            badge = agent_badge.get(item.source_agent, item.source_agent)
+            icon = severity_icon.get(item.severity, "")
+            result = [f"### {rank}. [{badge}] {item.question} {icon}"]
+            result.append("")
+            result.append(f"**근거:** {item.evidence}")
+            if item.context:
+                result.append(f"\n{item.context}")
+            return "\n".join(result)
+
+        for i, item in enumerate(report.top_items, 1):
+            lines.append(_render_item(item, i))
+            lines.append("")
+            lines.append("---")
+            lines.append("")
+
+        if report.collapsed_items:
+            lines.append("<details>")
+            lines.append(f"<summary>추가 질문 {len(report.collapsed_items)}개 (클릭하여 펼치기)</summary>")
+            lines.append("")
+            base = len(report.top_items) + 1
+            for i, item in enumerate(report.collapsed_items, base):
+                lines.append(_render_item(item, i))
+                lines.append("")
+                lines.append("---")
+                lines.append("")
+            lines.append("</details>")
+            lines.append("")
+
+        lines.append(f"총 {report.total_items}개 | 표시 {len(report.top_items)}개 | 접힘 {len(report.collapsed_items)}개")
         return "\n".join(lines)
 
     def save(self, report: Report, output_dir: Path | str) -> Path:

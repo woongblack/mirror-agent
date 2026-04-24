@@ -266,6 +266,45 @@ class Critique(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Orchestrator — 통합 리포트
+# ---------------------------------------------------------------------------
+
+_SEVERITY_RANK = {"high": 0, "medium": 1, "low": 2}
+
+
+class UnifiedItem(BaseModel):
+    """3개 에이전트 출력을 통합한 단일 항목."""
+
+    source_agent: Literal["historical", "socratic", "contrarian"]
+    severity: Literal["high", "medium", "low"]
+    question: str
+    evidence: str
+    context: str = Field(default="", description="추가 맥락 (방어 예측, 시나리오 함의 등)")
+    historical_link: str | None = Field(default=None, description="과거 궤적과의 연결")
+
+    @property
+    def severity_rank(self) -> int:
+        return _SEVERITY_RANK.get(self.severity, 2)
+
+
+class FullReport(BaseModel):
+    """Orchestrator의 최종 산출물 — 3개 에이전트 통합."""
+
+    document_path: str
+    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    historical_critiques: list[Critique]
+    socratic_questions: list[SocraticQuestion]
+    contrarian_challenges: list[ContrarianChallenge]
+    top_items: list[UnifiedItem] = Field(..., description="상위 3개 표시")
+    collapsed_items: list[UnifiedItem] = Field(default_factory=list, description="나머지 접힘")
+    document_metadata: DocumentMetadata
+
+    @property
+    def total_items(self) -> int:
+        return len(self.top_items) + len(self.collapsed_items)
+
+
+# ---------------------------------------------------------------------------
 # Report — 최종 산출물
 # ---------------------------------------------------------------------------
 
