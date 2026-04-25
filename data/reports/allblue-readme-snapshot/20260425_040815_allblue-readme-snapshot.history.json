@@ -1,0 +1,17 @@
+{
+  "document_path": "tests\\fixtures\\allblue-readme-snapshot.md",
+  "generated_at": "2026-04-25T04:08:15.537285",
+  "rule_ids_fired": [
+    "rule_differentiation_explicit",
+    "rule_post_mvp_concreteness",
+    "rule_supplier_first",
+    "rule_user_need_evidence",
+    "rule_solo_planning_blind_spot",
+    "rule_solo_operability",
+    "rule_scope_limitation_value_dilution",
+    "rule_technical_bottleneck_data_collection",
+    "rule_hypothetical_language_detector",
+    "rule_motivation_honesty"
+  ],
+  "user_responded_rules": []
+}

@@ -53,49 +53,36 @@
 
 ---
 
-## 현재 구현 상태
+## 현재 구현 상태 (2026-04-25 기준)
 
-### ✅ 완료 (v0.1 구현)
-- 프로젝트 구조, pyproject.toml, .env.example
-- 전체 Pydantic 모델 (`src/mirror_agent/models.py`)
-- 규칙 JSON 8개 + 방어 패턴 5개 (Ground Truth 포함)
-- 규칙/패턴 로더 (`src/mirror_agent/loader.py`)
-- 설정 (`src/mirror_agent/config.py`)
-- 테스트 fixture (ALLBLUE README 스냅샷)
-- Evaluation ground truth (`eval/ground_truth.json`)
-- `llm.py`: Anthropic AsyncClient, `structured_call` (tool use), `text_call`, 재시도 로직
-- `analyzer.py`: 마크다운 섹션 파싱, LLM으로 `DocumentMetadata` 추출, `key_excerpts` 보관
-- `matcher.py`: 규칙×문서 LLM 호출, Evidence 없으면 강제 `matches=False`, confidence 필터링
-- `generator.py`: 템플릿 변수 치환, `past_evidence` / `document_excerpt` 재사용
-- `defender.py`: 비판-방어패턴 의미 유사도 매칭, conversation-log.md 맥락 LLM 추론
-- `scorer.py`: confidence_label 기준 정렬, 상위 N개 선택 (novelty 계산은 v0.2 연기)
-- `reporter.py`: Markdown 출력, 상위 N개 표시, 나머지 `<details>` 접기, 방어 예측 포함
-- `pipeline.py`: Analyzer→Matcher→Generator→Defender→Scorer→Reporter 전체 파이프라인
-- `cli.py`: `main()`, `rules list`, `rules show`, `review` 커맨드
+### ✅ Phase 0~3 완료
+- 전체 파이프라인: `analyzer → matcher → generator → defender → scorer → reporter`
+- 규칙 수동 8개 + 자동 생성 5개 = 총 13개
+- Ground Truth 3/3 재현, Precision 82% (11개 생성 → 9개 수용, 본인 직접 평가)
+- 실제 리포트: `data/reports/allblue-readme-snapshot/`
+- 판정 기록: `data/rejections.md`
 
-### 🔄 일부 구현 (v0.2 연기)
-- `scorer.py`: novelty_score / repetition_penalty / 리포트 히스토리 로드 미구현 (현재 confidence_label 정렬만)
+### ✅ Phase 4 완료
+- `extractor.py`: 대화 로그 → CritiqueUnit 추출
+- `generalizer.py`: CritiqueUnit → 추상 Rule 후보 생성 (HITL 승인)
+- auto 규칙 3개 신규 각도 발동 확인
 
-### ✅ 검증 완료 (2026-04-23)
-- end-to-end 실행 완료 — Ground Truth 3/3 재현
-- Phase 3 실사용 사이클 1회 완료 — Precision 60% (합격선 통과)
-- 판정 기록: `data/rejections.md` (수용 3 / 반려 2)
-- 테스트 6건 모두 통과
+### ✅ Phase 5 구현 완료 (반복 검증 추가 필요)
+- `socratic.py`: 숨겨진 가정 드러내기 (5각도)
+- `contrarian.py`: 반대 시나리오 탐색
+- `orchestrator.py`: 3개 에이전트 병렬 실행 + severity 통합 정렬
+- `planner.py`: 아이디어 → Ouroboros Loop → 구조화된 기획안
+- `scorer.py`: novelty_score + repetition_penalty 완료
 
-### ✅ 구현 완료 (2026-04-24)
+### ⏸ Phase 6
+- Jira / Confluence 연동 — 입사 후
 
-Phase 3~5 전체 + v0.2 novelty 완료.
-
+### 주요 커맨드
 ```bash
-# 3개 에이전트 통합 실행
-uv run mirror review --full <document>
-
-# Planning Agent
-uv run mirror plan <idea_file>
-
-# 규칙 자동화
-uv run mirror extract <log>
-uv run mirror generalize <critiques>
+uv run mirror review --full <document>   # 3개 에이전트 통합
+uv run mirror plan <idea_file>           # Planning Agent
+uv run mirror extract <log>             # 규칙 자동화 1단계
+uv run mirror generalize <critiques>    # 규칙 자동화 2단계
 ```
 
 **다음 작업:** Phase 6 (Jira/Confluence) — 입사 후

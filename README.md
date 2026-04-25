@@ -182,14 +182,14 @@ uv run mirror plan <idea.txt> --max-rounds 5
 | Phase 0: 문서화 | ✅ 완료 | README, 대화 로그, 파이프라인 설계, 로드맵 |
 | Phase 1: 레포 초기화 | ✅ 완료 | 프로젝트 구조, Pydantic 모델, 규칙 JSON, Loader |
 | Phase 2: Re-Applicator v0.1 | ✅ 완료 | 전체 파이프라인 + Ground Truth 3/3 재현 |
-| Phase 3: 실사용 + 개선 | ✅ 완료 | Precision 100% (11개 생성 → 9개 표시 → 9/9 수용) |
+| Phase 3: 실사용 + 개선 | ✅ 완료 | Precision 82% (11개 생성 → 9개 수용, 본인 직접 평가) |
 | Phase 4: 규칙 자동화 | ✅ 완료 | Extractor + Generalizer + HITL (auto 규칙 5개) |
 | Phase 5: 다중 에이전트 통합 | ⚠️ 구현 완료 | Socratic + Contrarian + Planning Agent — 반복 실사용 검증 추가 필요 |
 | Phase 6: 외부 연동 | ⏸ 입사 후 | Jira / Confluence |
 
 **검증 결과 (2026-04-24 기준)**
 - Ground Truth 3/3 재현 ✅
-- Precision 100% (11개 생성 중 9개 표시, 표시된 9개 전체 수용) ✅
+- Precision 82% (11개 생성 → 9개 수용, 본인 직접 평가) ✅ — [실제 리포트 확인](data/reports/allblue-readme-snapshot/20260425_040815_allblue-readme-snapshot.md)
 - auto 규칙 3개 신규 각도 발동 확인 ✅
 - `mirror review --full`: 총 20개 질문 생성 ✅ (ALLBLUE README 1회 실행 기준)
 

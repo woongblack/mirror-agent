@@ -26,8 +26,7 @@ venv/
 .idea/
 *.swp
 
-# Reports (생성된 리포트는 별도 관리)
-data/reports/
+# Reports
 eval/results/
 
 # OS
